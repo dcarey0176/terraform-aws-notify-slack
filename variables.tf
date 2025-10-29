@@ -293,3 +293,9 @@ variable "runtime" {
   type        = string
   default     = "python3.13"
 }
+
+variable "content_type_json" {
+  description = "(Optional) Whether or not to set the content-type request header as application/json"
+  type        = bool
+  default     = false
+}
