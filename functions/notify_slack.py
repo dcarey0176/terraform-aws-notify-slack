@@ -648,15 +648,22 @@ def send_slack_notification(payload: Dict[str, Any]) -> str:
     :returns: response details from sending notification
     """
 
+    is_content_type_json = os.environ["CONTENT_TYPE_JSON"]
+
     slack_url = os.environ["SLACK_WEBHOOK_URL"]
     if not slack_url.startswith("http"):
         slack_url = decrypt_url(slack_url)
 
-    data = urllib.parse.urlencode({"payload": json.dumps(payload)}).encode("utf-8")
-    req = urllib.request.Request(slack_url)
+    if not is_content_type_json:
+        data = urllib.parse.urlencode({"payload": json.dumps(payload)}).encode("utf-8")
+        req = urllib.request.Request(slack_url, data)
+    else:
+        data = json.dumps(payload).encode("utf-8")
+        headers = {'Content-Type': 'application/json'}
+        req = urllib.request.Request(slack_url, data, headers)
 
     try:
-        result = urllib.request.urlopen(req, data)
+        result = urllib.request.urlopen(req)
         return json.dumps({"code": result.getcode(), "info": result.info().as_string()})
 
     except HTTPError as e:
