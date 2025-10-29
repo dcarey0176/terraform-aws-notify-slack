@@ -118,6 +118,7 @@ module "lambda" {
     SLACK_EMOJI       = var.slack_emoji
     LOG_EVENTS        = var.log_events ? "True" : "False"
     LOG_LEVEL         = var.log_level
+    CONTENT_TYPE_JSON = var.content_type_json
   }
 
   create_role               = var.lambda_role == ""
