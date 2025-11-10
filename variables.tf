@@ -299,3 +299,9 @@ variable "content_type_json" {
   type        = bool
   default     = false
 }
+
+variable "create_flat_json" {
+  description = "(Optional) Whether or not content_type_json is flat. Ignored if content_type_json is false"
+  type        = bool
+  default     = false
+}
